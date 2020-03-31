@@ -1,0 +1,21 @@
+<!doctype html>
+<html>
+<head>
+    {% block head %}{% endblock %}
+    <title>MatematikSpelet - {{undertitel}}}</title>
+</head>
+
+<body>
+    <h2>MatematikSpelet - {{undertitel}}<h2>
+
+    <div class="userinfo">
+    {% block userinfo %}{% endblock %}
+    </div>
+
+    <div class="container">
+    {% block container %}{% endblock %}
+    </div>
+
+    <p>{{ "Detta spel är byggt i Python3 och Flask (med Jinja-templates) (2019)"|e }}</p>
+</body>
+</html>
