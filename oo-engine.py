@@ -31,107 +31,54 @@ class bana(object):
                5: (0.01, 100.00, 2) }
 
     uppgifter = dict()
-
+    operand = ""
+    
     def __init__(self, *args):
         raise NotImplementedError(r"Denna metod måste implementeras!")
 
     def skapa_uppgifter(self, nivå, antal):
-        raise NotImplementedError(r"Denna metod måste implementeras!")
-
-
-class banaAddition(bana):
-    def __init__(self, spelare):
-        self.namn = "Addition"
-        self.spelare = spelare
-
-
-    def skapa_uppgifter(self, nivå, antal):
-        if nivå < 4:
+         if nivå < 4:
             talpar = hjälpare.skapa_talparserie(self.talset[nivå], antal)
         else:
-            talpar = hjälpare.skapa_flyttalparserie(self.talset[nivå], antal)
+            talpar = hjälpare.skapa_flyttalparserie(self.talset[nivå], antal
 
         uppg = [self.namn, str(nivå), "", "", []] # så element 4 innehåller lista med uppgifter
 
         print("%s", talpar)
 
         for par in talpar:
-            uttryck = "%s + %s" % par
+            if par[0] < par[1]:
+                par = (par[1], par[0])
+            uttryck = "%s %s %s" % (par[0], self.operand, par[1])
             uppg[4].append([uttryck, eval(uttryck), None, None])
 
         self.uppgifter[datetime.now()] = uppg
+
+
+class banaAddition(bana):
+    def __init__(self, spelare):
+        self.namn = "Addition"
+        self.spelare = spelare
+        self.operand = "+"
 
 class banaSubtraktion(bana):
     def __init__(self, spelare):
         self.namn = "Subtraktion"
         self.spelare = spelare
-
-
-    def skapa_uppgifter(self, nivå, antal):
-        if nivå < 4:
-            talpar = hjälpare.skapa_talparserie(self.talset[nivå], antal)
-        else:
-            talpar = hjälpare.skapa_flyttalparserie(self.talset[nivå], antal)
-
-        uppg = [self.namn, str(nivå), "", "", []] # så element 4 innehåller lista med uppgifter
-
-        for par in talpar:
-            if (nivå < 4) and (par[0] < par[1]):
-                par = (par[1], par[0])
-
-            uttryck = "%s - %s" % par
-            uppg[4].append([uttryck, eval(uttryck), None, None])
-
-        self.uppgifter[datetime.now()] = uppg
-
+        self.operand = "-"
 
 class banaMultiplikation(bana):
     def __init__(self, spelare):
         self.namn = "Multiplikation"
         self.spelare = spelare
-
-
-    def skapa_uppgifter(self, nivå, antal):
-        if nivå < 4:
-            talpar = hjälpare.skapa_talparserie(self.talset[nivå], antal)
-        else:
-            talpar = hjälpare.skapa_flyttalparserie(self.talset[nivå], antal)
-
-        uppg = [self.namn, str(nivå), "", "", []] # så element 4 innehåller lista med uppgifter
-
-        for par in talpar:
-            uttryck = "%s * %s" % par
-            uppg[4].append([uttryck, round(eval(uttryck), self.talset[nivå][2]), None, None])
-
-        self.uppgifter[datetime.now()] = uppg
-
-
+        self.operand("*")
 
 class banaDivision(bana):
     def __init__(self, spelare):
         self.namn = "Division"
         self.spelare = spelare
-
-
-    def skapa_uppgifter(self, nivå, antal):
-        if nivå < 4:
-            talpar = hjälpare.skapa_talparserie(self.talset[nivå], antal)
-        else:
-            talpar = hjälpare.skapa_flyttalparserie(self.talset[nivå], antal)
-
-        uppg = [self.namn, str(nivå), "", "", []] # så element 4 innehåller lista med uppgifter
-
-        for par in talpar:
-            if par[0] < par[1]:
-                par = (par[1], par[0])
-
-            uttryck = "%s / %s" % par
-            uppg[4].append([uttryck, round(eval(uttryck), self.talset[nivå][2]), None, None])
-
-        self.uppgifter[datetime.now()] = uppg
-
-
-
+        self.operand = "/"
+                                                    
 r"""
     dessa funktioner är hjälpfunktioner för att kunna skapa tal och uttryck
     därför kallar vi dem för hjälpare.
